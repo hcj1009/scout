@@ -27,11 +27,13 @@ limitations under the License.
 #include "libminiupnpc/miniupnpc.h"
 #include "libminiupnpc/upnpcommands.h"
 #include "libminiupnpc/upnperrors.h"
-#include "upnp-portmap.h"
 
 #ifdef _WIN32
+#include "upnp-portmap.h"
 #include <Iphlpapi.h>
-#endif
+#elif defined __linux__ && ! defined ANDROID
+#include <ifaddrs.h>
+#endif // #ifdef _WIN32
 
 namespace
 {

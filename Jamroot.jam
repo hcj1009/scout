@@ -82,10 +82,10 @@ lib scout
 	: # sources
 	src/dht_session.cpp
 	src/file.cpp
-	src/LoadLibraryList.cpp
+	#src/LoadLibraryList.cpp
 	src/scout.cpp
 	src/sockaddr.cpp
-	src/upnp-portmap.cpp
+	#src/upnp-portmap.cpp
 	src/utils.cpp
 	: # requirements
 	<threading>multi
