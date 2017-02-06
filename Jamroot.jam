@@ -3,8 +3,10 @@ import modules ;
 import os ;
 import path ;
 
-BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
-SODIUM_ROOT = [ modules.peek : SODIUM_ROOT ] ;
+#BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
+#SODIUM_ROOT = [ modules.peek : SODIUM_ROOT ] ;
+BOOST_ROOT = ../boost_1_63_0 ;
+SODIUM_ROOT = ../libsodium-1.0.11 ;
 
 if (BOOST_ROOT)
 {
@@ -36,6 +38,7 @@ if (SODIUM_ROOT)
 		<define>NATIVE_LITTLE_ENDIAN
 		<define>SODIUM_STATIC
 		<toolset>msvc:<define>inline=
+		<toolset>gcc:<cxxflags>-std=c++14
 
 		: # default build
 
@@ -96,6 +99,7 @@ lib scout
 	<target-os>windows:<define>_CRT_SECURE_NO_WARNINGS
 	<target-os>windows:<define>_SCL_SECURE_NO_WARNINGS
 	$(usage-requirements)
+	<toolset>gcc:<cxxflags>-std=c++14
 	: # default build
 	: # usage requirements
 	$(usage-requirements)
