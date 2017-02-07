@@ -12,7 +12,6 @@ lib natpmpc
     <toolset>gcc:<cxxflags>-fPIC
 	: # default build
 	<link>static
-    <toolset>gcc:<cxxflags>-fPIC
 	: # usage requirements
 	<include>.
 	<define>ENABLE_STRNATPMPERR
