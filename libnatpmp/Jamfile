@@ -9,12 +9,15 @@ lib natpmpc
 	<define>ENABLE_STRNATPMPERR
 	<target-os>windows:<define>WIN32
 	<target-os>windows:<define>STATICLIB
+    <toolset>gcc:<cxxflags>-fPIC
 	: # default build
 	<link>static
+    <toolset>gcc:<cxxflags>-fPIC
 	: # usage requirements
 	<include>.
 	<define>ENABLE_STRNATPMPERR
 	<target-os>windows:<define>STATICLIB
+    <toolset>gcc:<cxxflags>-fPIC
 	;
 
 

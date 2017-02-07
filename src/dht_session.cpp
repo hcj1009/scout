@@ -44,6 +44,22 @@ namespace
 		natpmp_interval = 480
 	};
 
+    // Utility functions adapted from libtorrent
+    address inaddr_to_address(in_addr const *ina)
+    {
+        typedef asio::ip::address_v4::bytes_type bytes_t;
+        bytes_t b;
+        std::memcpy(&b[0], ina, b.size());
+        return address_v4(b);
+    }
+
+    address sockaddr_to_address(sockaddr const *sin)
+    {
+        if (sin->sa_family == AF_INET)
+            return inaddr_to_address(&((sockaddr_in const *)sin)->sin_addr);
+        return address();
+    }
+
 #if g_log_dht
 	std::string filter(unsigned char const* p, int len)
 	{
