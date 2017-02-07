@@ -23,6 +23,31 @@ limitations under the License.
 
 using boost::system::error_code;
 
+template <class F>
+struct scope_guard
+{
+	scope_guard(F const& f) : m_f(f), m_valid(true) {}
+
+	scope_guard(scope_guard const & sg) = delete;
+	scope_guard& operator=(scope_guard const& sg) = delete;
+
+	scope_guard(scope_guard&& sg)
+		: m_f(std::move(sg.m_f))
+		, m_valid(true) {
+		sg.m_valid = false;
+	}
+
+	void disarm() { m_valid = false; }
+
+	~scope_guard() { if (m_valid) m_f(); }
+	F m_f;
+	bool m_valid;
+
+};
+
+template <class F>
+scope_guard<F> make_guard(F f) { return scope_guard<F>(f); }
+
 struct file
 {
 

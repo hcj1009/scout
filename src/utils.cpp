@@ -16,6 +16,7 @@ limitations under the License.
 
 #include "utils.hpp"
 #include <boost/uuid/sha1.hpp>
+#include <cstdarg>
 #include <vector>
 #include <memory>
 #include <cassert>
