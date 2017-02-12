@@ -1,18 +1,18 @@
 /*
-Copyright 2016 BitTorrent Inc
+ Copyright 2016 BitTorrent Inc
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+ http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 
 #ifndef SCOUT_HPP
 # define SCOUT_HPP
@@ -24,8 +24,7 @@ limitations under the License.
 #include <span.h>
 #include <dht.h>
 
-namespace scout
-{
+namespace scout {
 
 using secret_key = std::array<gsl::byte, 32>;
 using secret_key_span = gsl::span<gsl::byte, 32>;
@@ -39,39 +38,39 @@ using chash_span = gsl::span<gsl::byte const, 20>;
 
 // a mutable blob of data
 // each entry has an id associated with it which must be unique among the entries it is stored with
-class entry
-{
+class entry {
 public:
-	entry(uint32_t id) : m_seq(0), m_id(id) {}
+	entry(uint32_t id) :
+			m_seq(0), m_id(id) {
+	}
 
-	static std::pair<entry, gsl::span<gsl::byte const>> parse(gsl::span<gsl::byte const> input);
+	static std::pair<entry, gsl::span<gsl::byte const>> parse(
+			gsl::span<gsl::byte const> input);
 	gsl::span<gsl::byte> serialize(gsl::span<gsl::byte> output) const;
 
-	uint32_t id() const { return m_id; }
-	std::vector<gsl::byte> const& value() const { return m_contents; }
-	void assign(gsl::span<gsl::byte const> contents)
-	{
+	uint32_t id() const {
+		return m_id;
+	}
+	std::vector<gsl::byte> const& value() const {
+		return m_contents;
+	}
+	void assign(gsl::span<gsl::byte const> contents) {
 		m_contents.assign(contents.begin(), contents.end());
 		++m_seq;
 	}
 
 	// convenience function to save callers from having to do an
 	// explicit to_bytes
-	template <typename U, std::ptrdiff_t... Dimensions>
-	void assign(gsl::span<U, Dimensions...> s)
-	{
+	template<typename U, std::ptrdiff_t ... Dimensions>
+	void assign(gsl::span<U, Dimensions...> s) {
 		assign(gsl::as_bytes(s));
 	}
 
-	bool operator==(entry const& o) const
-	{
-		return m_id == o.m_id
-			&& m_seq == o.m_seq
-			&& m_contents == o.m_contents;
+	bool operator==(entry const& o) const {
+		return m_id == o.m_id && m_seq == o.m_seq && m_contents == o.m_contents;
 	}
 
-	entry& operator=(entry o)
-	{
+	entry& operator=(entry o) {
 		m_id = o.m_id;
 		m_seq = o.m_seq;
 		m_contents = o.m_contents;
@@ -79,13 +78,20 @@ public:
 	}
 
 	// for internal use:
-	int64_t seq() const { return m_seq; }
-	void update_seq(int64_t seq) { m_seq = seq; }
-	void update_contents(std::vector<gsl::byte> contents) { m_contents = contents; }
+	int64_t seq() const {
+		return m_seq;
+	}
+	void update_seq(int64_t seq) {
+		m_seq = seq;
+	}
+	void update_contents(std::vector<gsl::byte> contents) {
+		m_contents = contents;
+	}
 
 private:
-	entry(int64_t seq, uint32_t id, std::vector<gsl::byte> content)
-		: m_contents(std::move(content)), m_seq(seq), m_id(id) {}
+	entry(int64_t seq, uint32_t id, std::vector<gsl::byte> content) :
+			m_contents(std::move(content)), m_seq(seq), m_id(id) {
+	}
 
 	std::vector<gsl::byte> m_contents;
 	int64_t m_seq;
@@ -94,8 +100,7 @@ private:
 
 // a token is associated with each piece of immutable data stored in a list
 // it should be stored alongside the data and passed along with it to put
-class list_token
-{
+class list_token {
 public:
 	friend class list_head;
 
@@ -103,26 +108,27 @@ public:
 	static list_token parse(gsl::span<gsl::byte const> input);
 	gsl::span<gsl::byte> serialize(gsl::span<gsl::byte> output) const;
 
-	hash const& next() const { return m_next; }
+	hash const& next() const {
+		return m_next;
+	}
 
-	bool operator==(list_token const& o) const
-	{
+	bool operator==(list_token const& o) const {
 		return m_next == o.m_next;
 	}
 
 private:
-	list_token(hash next) : m_next(next) {}
+	list_token(hash next) :
+			m_next(next) {
+	}
 
 	hash m_next;
 };
 
 // The head of a linked-list stored in the DHT. New items can only be inserted
 // at the head of the list and list can only be retrieved starting at the head (LIFO).
-class list_head
-{
+class list_head {
 public:
-	list_head()
-	{
+	list_head() {
 		m_head.fill(gsl::byte(0));
 	}
 
@@ -136,15 +142,18 @@ public:
 
 	// get the hash of the head of the list
 	// this can be passed to get() to retrieve the first item in the list
-	hash const& head() const { return m_head; }
+	hash const& head() const {
+		return m_head;
+	}
 
-	bool operator==(list_head const& o) const
-	{
+	bool operator==(list_head const& o) const {
 		return m_head == o.m_head;
 	}
 
 private:
-	list_head(hash head) : m_head(head) {}
+	list_head(hash head) :
+			m_head(head) {
+	}
 
 	hash m_head;
 };
@@ -158,11 +167,13 @@ secret_key key_exchange(csecret_key_span sk, cpublic_key_span pk);
 // takes a span of entries and write them out to a buffer
 // returns a new span pointing to to one past the last byte used to store
 // the entries
-gsl::span<gsl::byte> serialize(gsl::span<entry const> entries, gsl::span<gsl::byte> output);
+gsl::span<gsl::byte> serialize(gsl::span<entry const> entries,
+		gsl::span<gsl::byte> output);
 
 // parse a list of entries as generated by serialize()
 // returns a span starting at one past the last byte used to store the entries
-gsl::span<gsl::byte const> parse(gsl::span<gsl::byte const> input, std::vector<entry>& entries);
+gsl::span<gsl::byte const> parse(gsl::span<gsl::byte const> input,
+		std::vector<entry>& entries);
 
 // called when a new or updated entry is received from the DHT
 using entry_updated = std::function<void(entry const& e)>;
@@ -189,8 +200,9 @@ using put_finished = std::function<void()>;
 //
 // All entries in the vector passed to finalize_cb are written to the DHT. Once the put operation
 // is complete finished_cb is invoked
-void synchronize(IDht& dht, secret_key_span shared_key, std::vector<entry> const& entries
-	, entry_updated entry_cb, finalize_entries finalize_cb, sync_finished finished_cb);
+void synchronize(IDht& dht, secret_key_span shared_key,
+		std::vector<entry> const& entries, entry_updated entry_cb,
+		finalize_entries finalize_cb, sync_finished finished_cb);
 
 // store an immutable item in the DHT
 //
@@ -198,8 +210,8 @@ void synchronize(IDht& dht, secret_key_span shared_key, std::vector<entry> const
 // the contents
 //
 // finished_cb will be called once the put operation has completed
-void put(IDht& dht, list_token const& token, gsl::span<gsl::byte const> contents
-	, put_finished finished_cb);
+void put(IDht& dht, list_token const& token,
+		gsl::span<gsl::byte const> contents, put_finished finished_cb);
 
 // retrieve an immutable item from the DHT identified by the given hash
 //

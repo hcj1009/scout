@@ -54,7 +54,7 @@
 #include <sys/param.h>
 #include <netinet/in.h>
 
-#ifndef INADDR_NONE
+//#ifndef INADDR_NONE
 // HACK: on mac, for some reason including netinet/in.h doesn't define these
 // symbols. These were copied out of the header on mac
 #define	INADDR_NONE		0xffffffff		/* -1 return */
@@ -66,7 +66,7 @@ struct ip_mreqn {
 };
 #define	NI_MAXHOST	1025
 #define	NI_MAXSERV	32
-#endif
+//#endif
 
 #include <arpa/inet.h>
 #include <netdb.h>

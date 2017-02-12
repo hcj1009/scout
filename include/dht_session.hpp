@@ -17,6 +17,7 @@ limitations under the License.
 #ifndef BITTORRENT_DHT_SESSION_HPP
 #define BITTORRENT_DHT_SESSION_HPP
 
+#include <cstdint>
 #include <thread>
 #include <future>
 #include <boost/asio/io_service.hpp>
@@ -24,8 +25,8 @@ limitations under the License.
 #include <dht.h>
 #include <ExternalIPCounter.h>
 #include <libminiupnpc/igd_desc_parse.h>
-#include "udp_socket.hpp"
-#include "scout.hpp"
+#include <udp_socket.hpp>
+#include <scout.hpp>
 
 namespace scout
 {
