@@ -1,4 +1,5 @@
 bin
+*.a
 *.bc
 *.cmake
 *.dSYM
@@ -33,8 +34,6 @@ Makefile
 Makefile.in
 Vagrantfile
 aclocal.m4
-android-toolchain
-android-toolchain-*
 autom4te.cache
 build
 compile
