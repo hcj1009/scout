@@ -20,6 +20,7 @@ libscout_a_LIBADD = \
 
 libscout_a_CXXFLAGS = \
 	-std=c++14 \
+	-fno-strict-aliasing \
 	-I../ \
 	-I../include \
 	-I$(BOOST_ROOT) \
