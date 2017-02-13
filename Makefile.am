@@ -1,10 +1,10 @@
-ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = -I m4 --install
 
-BOOST_ROOT = ../../Library/boost_1_63_0
-SODIUM_ROOT = ../../Library/libsodium-1.0.11
+include $(top_srcdir)/Makefile.conf
+
+EXTRA_DIST = m4/NOTES
 
 SUBDIRS = \
-	$(SODIUM_ROOT) \
 	btdht \
 	libnatpmp \
 	libminiupnpc \

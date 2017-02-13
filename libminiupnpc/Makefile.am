@@ -1,7 +1,7 @@
-lib_LIBRARIES = \
-	libminiupnpc.a
+lib_LTLIBRARIES = \
+	libminiupnpc.la
 
-libminiupnpc_a_SOURCES = \
+libminiupnpc_la_SOURCES = \
 	miniupnpc.h \
 	miniwget.h \
 	upnpcommands.h \
@@ -25,5 +25,5 @@ libminiupnpc_a_SOURCES = \
 	portlistingparse.c \
 	receivedata.c
 
-libminiupnpc_a_CXXFLAGS = \
+libminiupnpc_la_CXXFLAGS = \
 	-std=c++11

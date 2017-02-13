@@ -20,7 +20,7 @@ limitations under the License.
 #include <sodium/crypto_scalarmult.h>
 #include <scout.hpp>
 #include <dht_session.hpp>
-
+/*
 namespace
 {
 	const static char hex_alphabet[] = "0123456789abcdef";
@@ -93,10 +93,10 @@ secret_key load_key_from_file(std::string const& filename)
 		}
 	}
 	return sk;
-}
+}*/
 
 int main(int argc, char const* argv[])
-{
+{/*
 	// skip path to self
 	++argv;
 	--argc;
@@ -230,4 +230,6 @@ int main(int argc, char const* argv[])
 	std::mutex m;
 	std::unique_lock<std::mutex> l(m);
 	op_complete.wait(l);
+	*/
+	return 0;
 }

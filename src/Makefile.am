@@ -1,10 +1,9 @@
-BOOST_ROOT = ../../../Library/boost_1_63_0
-SODIUM_ROOT = ../../../Library/libsodium-1.0.11
+include $(top_srcdir)/Makefile.conf
 
-lib_LIBRARIES = \
-	libscout.a
+lib_LTLIBRARIES = \
+	libscout.la
 
-libscout_a_SOURCES = \
+libscout_la_SOURCES = \
 	scout.cpp \
 	dht_session.cpp \
 	file.cpp \
@@ -13,21 +12,21 @@ libscout_a_SOURCES = \
 	sockaddr.hpp \
 	utils.cpp
 
-libscout_a_LIBADD = \
-	../btdht/src/libbtdht.a \
-	../libnatpmp/libnatpmp.a \
-	../libminiupnpc/libminiupnpc.a
-
-libscout_a_CXXFLAGS = \
+libscout_la_CXXFLAGS = \
 	-std=c++14 \
 	-fno-strict-aliasing \
-	-I../ \
-	-I../include \
-	-I$(BOOST_ROOT) \
-	-I$(SODIUM_ROOT)/src/libsodium/include \
-	-I../GSL/include \
-	-I../btdht/src \
-	-I../btdht/btutils/src \
-	-I../libnatpmp \
-	-I../libminiupnpc
+	-I.. \
+	-I../$(scout_incdir) \
+	-I../$(BOOST_ROOT) \
+	-I../$(sodium_incdir) \
+	-I../$(gsl_incdir) \
+	-I../$(btdht_srcdir) \
+	-I../$(btutils_srcdir) \
+	-I../$(natpmp_srcdir) \
+	-I../$(miniupnpc_srcdir)
+
+libscout_la_LIBADD = \
+	../$(btdht_srcdir)/libbtdht.la \
+	../$(natpmp_srcdir)/libnatpmp.la \
+	../$(miniupnpc_srcdir)/libminiupnpc.la
 

@@ -1,20 +1,26 @@
-BOOST_ROOT = ../../../Library/boost_1_63_0
-SODIUM_ROOT = ../../../Library/libsodium-1.0.11
+include $(top_srcdir)/Makefile.conf
 
 noinst_PROGRAMS = client_test
 client_test_SOURCES = client_test.cpp
-client_test_LDADD = \
-	../src/scout.a
 
 client_test_CXXFLAGS = \
 	-std=c++14 \
 	-fno-strict-aliasing \
-	-I../ \
-	-I../include \
-	-I$(BOOST_ROOT) \
-	-I$(SODIUM_ROOT)/src/libsodium/include \
-	-I../GSL/include \
-	-I../btdht/src \
-	-I../btdht/btutils/src \
-	-I../libnatpmp \
-	-I../libminiupnpc
+	-I$(top_srcdir) \
+	-I$(top_srcdir)/$(scout_incdir) \
+	-I$(top_srcdir)/$(BOOST_ROOT) \
+	-I$(top_srcdir)/$(sodium_incdir) \
+	-I$(top_srcdir)/$(gsl_incdir) \
+	-I$(top_srcdir)/$(btdht_srcdir) \
+	-I$(top_srcdir)/$(btutils_srcdir) \
+	-I$(top_srcdir)/$(natpmp_srcdir) \
+	-I$(top_srcdir)/$(miniupnpc_srcdir)
+
+client_test_LDFLAGS = \
+	-L/usr/local/lib64
+	-lstdc++
+
+client_test_LDADD = \
+	$(top_srcdir)/$(boost_libdir)/libboost_system.a
+	$(top_srcdir)/$(sodium_libdir)/libsodium.la
+	$(top_srcdir)/$(scout_srcdir)/libscout.la

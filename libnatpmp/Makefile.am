@@ -1,7 +1,7 @@
-lib_LIBRARIES = \
-	libnatpmp.a
+lib_LTLIBRARIES = \
+	libnatpmp.la
 
-libnatpmp_a_SOURCES = \
+libnatpmp_la_SOURCES = \
 	declspec.h \
 	getgateway.h \
 	getgateway.c \
