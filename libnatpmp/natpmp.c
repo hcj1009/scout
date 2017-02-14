@@ -303,7 +303,7 @@ int readnatpmpresponseorretry(natpmp_t * p, natpmpresp_t * response)
 	return n;
 }
 
-#ifdef ENABLE_STRNATPMPERR
+//#ifdef ENABLE_STRNATPMPERR
 LIBSPEC const char * strnatpmperr(int r)
 {
 	const char * s;
@@ -371,5 +371,5 @@ LIBSPEC const char * strnatpmperr(int r)
 	}
 	return s;
 }
-#endif
+//#endif
 

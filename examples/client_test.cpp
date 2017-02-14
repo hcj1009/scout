@@ -15,12 +15,13 @@ limitations under the License.
 */
 
 #include <iostream>
+#include <sstream>
 #include <cstdio>
 #include <system_error>
 #include <sodium/crypto_scalarmult.h>
 #include <scout.hpp>
 #include <dht_session.hpp>
-/*
+
 namespace
 {
 	const static char hex_alphabet[] = "0123456789abcdef";
@@ -50,6 +51,22 @@ namespace
 		}
 		return ret;
 	}
+}
+
+/*
+void gsl_byte_vector_output(std::vector<gsl::byte> v)
+{
+    for (auto const& e : v) 
+        std::cout << reinterpret_cast<const char*>(e);
+}
+*/
+
+std::string to_string(std::vector<gsl::byte> v)
+{
+    std::stringstream ss;
+    for (auto const& e : v)
+        ss << reinterpret_cast<const char*>(e);
+    return ss.str();
 }
 
 void usage()
@@ -93,10 +110,10 @@ secret_key load_key_from_file(std::string const& filename)
 		}
 	}
 	return sk;
-}*/
+}
 
 int main(int argc, char const* argv[])
-{/*
+{
 	// skip path to self
 	++argv;
 	--argc;
@@ -187,8 +204,7 @@ int main(int argc, char const* argv[])
 				{
 					if (e.value() != content)
 						e.assign(content);
-					std::cout << e.id() << ' ' << std::string(e.value().begin(), e.value().end())
-						<< '\n';
+					std::cout << e.id() << ' ' << to_string(e.value()) << '\n';
 				}
 			}
 			, [&]() { op_complete.notify_all(); });
@@ -230,6 +246,5 @@ int main(int argc, char const* argv[])
 	std::mutex m;
 	std::unique_lock<std::mutex> l(m);
 	op_complete.wait(l);
-	*/
 	return 0;
 }

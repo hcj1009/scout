@@ -21,6 +21,6 @@ client_test_LDFLAGS = \
 	-lstdc++
 
 client_test_LDADD = \
-	$(top_srcdir)/$(boost_libdir)/libboost_system.a
-	$(top_srcdir)/$(sodium_libdir)/libsodium.la
+	$(top_srcdir)/$(boost_libdir)/libboost_system.a \
+	$(top_srcdir)/$(sodium_libdir)/libsodium.la \
 	$(top_srcdir)/$(scout_srcdir)/libscout.la
