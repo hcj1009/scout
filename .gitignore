@@ -38,6 +38,7 @@ build
 compile
 confdefs.h
 config.*
+configure
 configure.lineno
 coverage.info
 depcomp

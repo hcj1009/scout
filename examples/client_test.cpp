@@ -65,7 +65,7 @@ std::string to_string(std::vector<gsl::byte> v)
 {
     std::stringstream ss;
     for (auto const& e : v)
-        ss << reinterpret_cast<const char*>(e);
+        ss << static_cast<uint8_t>(e);
     return ss.str();
 }
 
