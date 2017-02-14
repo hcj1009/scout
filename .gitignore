@@ -43,6 +43,9 @@ configure.lineno
 coverage.info
 depcomp
 install-sh
+libtool
+ltmain.sh
+libtool.m4
 
 # Visual studio files
 *.sln
