@@ -26,6 +26,7 @@ bin
 .dirstamp
 .done
 .libs
+*.dat
 /bin/
 /obj/
 Build
@@ -46,6 +47,7 @@ install-sh
 libtool
 ltmain.sh
 libtool.m4
+client_test
 
 # Visual studio files
 *.sln
