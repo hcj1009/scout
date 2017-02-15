@@ -9,5 +9,6 @@ SUBDIRS = \
 	libnatpmp \
 	libminiupnpc \
 	src \
+	test \
 	examples
 

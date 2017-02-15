@@ -48,6 +48,7 @@ libtool
 ltmain.sh
 libtool.m4
 client_test
+test_scout
 
 # Visual studio files
 *.sln
