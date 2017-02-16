@@ -1,20 +1,59 @@
-# Overview
+# Scout for Linux
+
+Scout for Linux is a fork from [bittorrent/scout](https://github.com/bittorrent/scout) library, but modified so that it can be built under Linux using `autotools` and `make`.
+
+# Scout Overview
 
 Scout is a library enabling two users to contact each other over the Internet using only their respective public keys. The Bittorrent distributed hash table (DHT) is used to store and retrieve contact information. Scout can also be used to store and retrieve short messages from the DHT so that peers can communicate even if they are never online at the same time.
 
 # Prerequisites
 
-Scout requires Boost 1.58 or newer and Libsodium 1.0 or newer
+|      Name     | Minimum version | Suggested version |
+|:-------------:|:---------------:|:-----------------:|
+|    autoconf   |       N/A       |        2.69       |
+|    automake   |       N/A       |        1.15       |
+|    libtool    |       N/A       |       2.4.6       |
+|      make     |      3.7.5      |        4.1        |
+|      GCC      |      5.1.0      |       5.4.0       |
+| boost::system |      1.5.8      |       1.6.3       |
+|   libsodium   |       1.0       |       1.0.11      |
 
 # Building
 
-Scout uses Boost.Build version 2 to build. For information on installing BBv2 see the [Boost.Build manual](http://www.boost.org/build/doc/html/bbv2/installation.html). By default scout uses the versions of boost and libsodium which are installed on the system. If you are building on Windows you will need to specify the paths to the boost and libsodium source trees using the BOOST_ROOT and SODIUM_ROOT environment variables. Example commands to build scout on Windows:
+## Installing build toolchain
 
-    C:\scout> set BOOST_ROOT=C:\boost_1_60_0
-    C:\scout> set SODIUM_ROOT=C:\libsodium-1.0.8
-    C:\scout> bjam toolset=msvc-14
+Scout linux port uses GNU autotools and GNU make to build. These packages can be obtained using different package managers on different distributions. For example:
+* Debian/Ubuntu: `$ sudo apt-get install autoconf automake libtool make`
+* Fedora/CentOS: `$ sudo yum install autoconf automake libtool make`
 
-# Setting up a DHT session
+## Easy setup
+
+A setup script to quickly deploy the source code as well as all the dependencies can be found here: [scout-setup.sh](https://raw.githubusercontent.com/hcj1009/pkg-setup/master/setups/scout-setup.sh).
+
+It is good practice to save this script to an empty folder, and run it in that folder.
+
+	$ cd PATH/TO/SETUP
+	$ chmod u+x scout-setup.sh
+	$ ./scout-setup.sh
+
+The setup script will automatically download and initialize required libraries.
+
+## Building Scout!
+
+After all the prerequisites satisfied, you can run the following commands to build scout:
+
+	$ cd PATH/TO/SCOUT-LINUX
+	$ ./autogen.sh
+	$ ./configure
+	$ make
+
+and following command to clean up the workspace:
+
+	$ make clean
+
+# Usage
+
+## Setting up a DHT session
 
 Most users will want to use the dht_session class to easily set up a DHT node which can be used with the rest of scout's functions. To start a node create an instance of dht_session and call the start function.
 
@@ -27,21 +66,21 @@ The start function will start a DHT node in a separate thread and return immedia
 
 This function will block until the dht node thread has exited. If stop is not called explicitly it will be called from the dht_session destructor.
 
-# Generating a key pair
+## Generating a key pair
 
 Scout provides the `generate_keypair` function to generate a new ed25519 key pair.
 
 	std::pair<scout::secret_key, scout::public_key> keypair = scout::generate_keypair();
 
-# Callbacks
+## Callbacks
 
 The scout API involves many callback functions. When using the dht_session class it is important to keep in mind that callbacks will be invoked in the DHT node's thread rather than the main thread of your application. This means you need to be careful when accessing your application's data structures from a callback. Ideally callbacks will carry a copy of any data they might need to store in the DHT and post notifications to the main application event loop for new data retrieved from the DHT.
 
-# Storage lifetime
+## Storage lifetime
 
 Data stored in the DHT can only be expected to remain there for up to two hours. It is recommended that data be stored/synchronized roughly once an hour.
 
-# Synchronizing contact information
+## Synchronizing contact information
 
 Scout stores contact information as a vector of entries. Each entry must be assigned an id which is unique within that vector. The contents of the entries are left up to the application. Scout encrypts the entry vector before storing it in the DHT so applications do not need to encrypt each entry's contents.
 
@@ -52,7 +91,7 @@ To communicate entries between peers, scout uses a synchronize operation which r
 
 The entries vector should contain the entries which the application is currently aware of. The `entry_updated` callback will be invoked when a new or updated entry is retrieved from the DHT. The `finalize_entries` callback will be invoked after all updates have been retrieved and before the updated entry vector is stored in the DHT, it provides the application a final opportunity to update the entries. The `sync_finished` callback is invoked once all store requests have completed, any resources associated with the operation may be freed by this function.
 
-# Storing offline messages
+## Storing offline messages
 
 Scout supports storing messages in the DHT so that a peer can retrieve them later even if the originator has gone offline. Messages are limited to 1000 bytes each. Scout does not encrypt message contents, the application is expected to have it's own message encryption scheme. Messages are stored in the DHT using the hash of their content as the key, thus the content of a message cannot be changed. A series of messages are stored as a linked list which can be retrieved using just the hash of the most recently stored message. Message lists are always retrieved in last-in-first-out order.
 
@@ -70,7 +109,7 @@ The list_token contains the hash of the next message in the list, which correspo
 
 The msg_token must match the one returned from push_front for the given message. The storage backing the message contents must remain valid until the `put_finished` callback is invoked.
 
-# Retrieving offline messages
+## Retrieving offline messages
 
 To retrieve a list of offline messages you first must obtain the hash of the first message. The sender can get this hash from the `list_head`.
 
