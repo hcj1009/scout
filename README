@@ -8,11 +8,11 @@ Scout is a library enabling two users to contact each other over the Internet us
 
 # Tested Platform
 
-* Ubuntu 16.04 LTS with linux 4.4.0-62-generic
-* *CentOS 7 with linux 3.10.0-514.6.1.el7
-* Arch Linux with linux 4.4.5-1-ARCH
+* *CentOS 7 with GCC 5.1.0, 5.4.0
+* Ubuntu 16.04 LTS with GCC 5.4.0
+* Arch Linux with GCC 6.3.0
 
-*For CentOS, GCC version >= 5.1.0 may have to be manually installed from source code.
+*GCC version >= 5.1.0 may have to be manually installed from source code on CentOS.
 
 # Prerequisites
 
