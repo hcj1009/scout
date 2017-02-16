@@ -6,6 +6,14 @@ Scout for Linux is a fork from [bittorrent/scout](https://github.com/bittorrent/
 
 Scout is a library enabling two users to contact each other over the Internet using only their respective public keys. The Bittorrent distributed hash table (DHT) is used to store and retrieve contact information. Scout can also be used to store and retrieve short messages from the DHT so that peers can communicate even if they are never online at the same time.
 
+# Tested Platform
+
+* Ubuntu 16.04 LTS with linux 4.4.0-62-generic
+* *CentOS 7 with linux 3.10.0-514.6.1.el7
+* Arch Linux with linux 4.4.5-1-ARCH
+
+*For CentOS, GCC version >= 5.1.0 may have to be manually installed from source code.
+
 # Prerequisites
 
 |      Name     | Minimum version | Suggested version |
