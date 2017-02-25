@@ -190,20 +190,20 @@ int main(int argc, char const* argv[])
 		if (pk_str.size() != pk.size()) usage();
 		std::memcpy(pk.data(), pk_str.data(), pk.size());
 		scout::secret_key shared_secret = scout::key_exchange(sk, pk);
-		scout::entry e(std::uint32_t(std::stoul(argv[2])));
+		scout::entry ce(std::uint32_t(std::stoul(argv[2])));
 		std::vector<gsl::byte> content((gsl::byte const*)argv[3]
 			, (gsl::byte const*)argv[3] + std::strlen(argv[3]));
-		e.assign(content);
+		ce.assign(content);
 		std::vector<scout::entry> entries;
-		entries.push_back(e);
+		entries.push_back(ce);
 		ses.synchronize(shared_secret, std::move(entries)
 			, [](entry const&) {}
 			, [=](std::vector<entry>& entries)
 			{
 				for (entry& e : entries)
 				{
-					if (e.value() != content)
-						e.assign(content);
+					if (ce.id() == e.id() && e.value() != ce.value())
+						e.assign(ce.value());
 					std::cout << e.id() << ' ' << to_string(e.value()) << '\n';
 				}
 			}

@@ -321,7 +321,7 @@ void synchronize(IDht& dht, secret_key_span shared_key, std::vector<entry> const
 	crypto_sign_seed_keypair(target_public.data(), target_private.data(), (const unsigned char*) shared_key.data());
 
 	// store context info for the callbacks:
-	dht_put_context *put_context = new dht_put_context(entries, shared_key, entry_cb, finalize_cb, finished_cb);	
+	dht_put_context *put_context = new dht_put_context(entries, shared_key, entry_cb, finalize_cb, finished_cb);
 
 	// create a lambda function for the final callback:
 	auto put_completed_callback = [](void *ctx) {

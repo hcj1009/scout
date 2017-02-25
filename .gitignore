@@ -6,6 +6,8 @@
 *.mk
 *.status
 *~
+*.dat
+*.key
 .DS_Store
 .deps
 .libs
